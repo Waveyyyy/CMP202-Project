@@ -1,7 +1,12 @@
-# boring stuff
+# Non IDE dev stuff
 /compile_commands.json
 /debug.sh
 /rebuild-debug.sh
+
+# Build Stuff
 cmake-build-debug/
 cmake-build-release/
+
+# Jetbrains things
 .cache/
+.idea/
