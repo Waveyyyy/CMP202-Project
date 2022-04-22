@@ -1,0 +1,7 @@
+# boring stuff
+/compile_commands.json
+/debug.sh
+/rebuild-debug.sh
+cmake-build-debug/
+cmake-build-release/
+.cache/
