@@ -4,6 +4,9 @@
 /rebuild-debug.sh
 /release.sh
 
+# non implemented stuffs
+notImpYet/
+
 # Build Stuff
 cmake-build-debug/
 cmake-build-release/
