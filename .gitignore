@@ -2,6 +2,7 @@
 /compile_commands.json
 /debug.sh
 /rebuild-debug.sh
+/release.sh
 
 # Build Stuff
 cmake-build-debug/
