@@ -17,6 +17,6 @@ include_directories(${PROJECT_SOURCE_DIR} ${SFML_INCLUDE_DIRS})
 add_executable(CMP202Project
         src/main.cpp 
         src/scanner.cpp
-        src/tasks.cpp
+        src/tasks.hpp
         src/pools.cpp)
 target_link_libraries(CMP202Project pthread sfml-network-s sfml-system-s)
