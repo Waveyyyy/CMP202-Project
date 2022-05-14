@@ -15,7 +15,8 @@ find_package(SFML COMPONENTS network system REQUIRED)
 include_directories(${PROJECT_SOURCE_DIR} ${SFML_INCLUDE_DIRS})
 
 add_executable(CMP202Project
-        src/main.cpp 
+        src/main.cpp
+        src/utils.cpp
         src/scanner.cpp
         src/tasks.hpp
         src/pools.cpp)
