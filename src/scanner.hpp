@@ -19,7 +19,7 @@ class Scanner : public Task {
         /// @timeout Optional argument to specify maximum wait time for a connection
         ///
         Scanner(sf::IpAddress address, uint16_t port,
-                sf::Time timeout = sf::milliseconds(100));
+                sf::Time timeout = sf::milliseconds(200));
 
         /// The main driving function for class Scanner
         ///
@@ -27,7 +27,7 @@ class Scanner : public Task {
         /// Based on the response will either add to the numberOpen
         /// or numberClosed vectors.
         ///
-        void execute();
+        void execute() override;
 
     private:
         // member variables

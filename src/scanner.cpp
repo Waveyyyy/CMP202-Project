@@ -7,14 +7,13 @@ Scanner::Scanner(sf::IpAddress address, uint16_t port, sf::Time timeout)
 
 void Scanner::execute()
 {
-        // Connect to a TCP socket with the supplied address, port and timeout
+        // Connect to a TCP socket with the supplied address, port and timeout(default 200ms)
         if (sf::TcpSocket().connect(m_address, m_port, m_timeout) ==
             sf::Socket::Done) {
-                // Add to the numOpen counter and openPort vector
-                printf("[*] Connected to : %s:%d\n",
-                       this->m_address.toString().c_str(), this->m_port);
+                // TODO: Increment the numOpen counter and add port to the openPort vector
+                printf("[*] Port tcp/%d is open\n", this->m_port);
                 return;
         }
-        // Add to the numClosed counter
+        // TODO: Increment the numClosed counter
         printf("[!] Connection failed\n");
 }
