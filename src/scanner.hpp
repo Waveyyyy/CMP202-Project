@@ -3,6 +3,8 @@
 
 #include <cstdio>
 #include <cstdint>
+#include <atomic>
+#include <mutex>
 
 // SFML stuff
 #include <SFML/Network.hpp>
@@ -14,11 +16,17 @@ class Scanner : public Task {
     public:
         /// Non-default constructor
         ///
-        /// @address IP address of remote host
-        /// @port Specific port of the host to scan
-        /// @timeout Optional argument to specify maximum wait time for a connection
+        /// \param address IP address of remote host
+        /// \param ports Vector containing ports supplied as command line args
+        /// \param portIndex Index of the ports vector whose value will be scanned
+        /// \param openPorts Vector containing ports that are open
+        /// \param numOpen Atomic int that gets incremented each time an OPEN port is found
+        /// \param numClosed Atomic int that gets increased each time a CLOSED port is found
+        /// \param timeout Optional argument to specify maximum wait time for a connection
         ///
-        Scanner(sf::IpAddress address, uint16_t port,
+        Scanner(sf::IpAddress address, std::vector<uint16_t> *ports,
+                size_t portIndex, std::vector<uint16_t> *openPorts,
+                std::atomic<int> &numOpen, std::atomic<int> &numClosed,
                 sf::Time timeout = sf::milliseconds(200));
 
         /// The main driving function for class Scanner
@@ -32,8 +40,13 @@ class Scanner : public Task {
     private:
         // member variables
         sf::IpAddress m_address;
-        uint16_t m_port;
+        std::vector<uint16_t> *m_portsList;
+        size_t m_portIndex;
+        std::vector<uint16_t> *m_openPorts;
+        std::atomic<int> &m_numOpen;
+        std::atomic<int> &m_numClosed;
         sf::Time m_timeout;
+        std::mutex openPortsLock;
 };
 
 #endif
