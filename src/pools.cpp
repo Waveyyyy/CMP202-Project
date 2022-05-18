@@ -2,39 +2,46 @@
 
 void Pools::add_task(Task *task)
 {
-        this->taskList.push(task);
+        // Add the task to the end of the queue
+        this->m_taskList.push(task);
 }
 
-void Pools::execute()
+void Pools::execute(unsigned threads)
 {
-        // create sane amount of threads relating to machines number of logical processors/cores
-        for (unsigned i = 0; i < std::thread::hardware_concurrency(); ++i) {
-                // [&] in a lambda function means all variables are captured by reference
-                this->threadPool.push_back(new std::thread([&] {
-                        // null pointer for task storing a reference to currently running task
-                        Task *task;
+        // loop for the desired number of threads
+        for (unsigned i = 0; i < threads; ++i) {
+                // lambda function adds new threads to the m_threadPool vector
+                m_threadPool.push_back(new std::thread([&]() {
                         while (true) {
-                                // lock while messing with taskList queue
-                                std::unique_lock<std::mutex> lock(tLock);
-                                if (taskList.empty()) {
-                                        return;
+                                // check if there are any tasks in the task list
+                                if (!m_taskList.empty()) {
+                                        // assign the first element of tasklist to task then pop said
+                                        // task from the list, otherwise this will continually create threads
+                                        // all with the same task
+
+                                        m_tLock.lock();
+                                        Task *task = m_taskList.front();
+                                        m_taskList.pop();
+                                        m_tLock.unlock();
+
+                                        // the actual execution of the task, e.g runs Scanners execute member function
+                                        task->execute();
+
+                                        // once task is complete, delete it
+                                        delete task;
+
+                                        // this continue ensures the execution path doesn't hit the return
+                                        // which causes only five tasks to be assigned to a single thread
+                                        continue;
                                 }
-                                // set current task to first task in queue
-                                // then remove said task from list
-                                task = taskList.front();
-                                taskList.pop();
-
-                                // remove lock on task and run the task
-                                tLock.unlock();
-                                task->execute();
-
-                                // delete completed task cos memory management :)
-                                delete task;
+                                return;
                         }
                 }));
-                // auto because threadPool is of type std::thread *
-                for (auto i : this->threadPool) {
-                        i->join();
-                }
         }
+        // join all the threads once they're done their task
+        std::for_each(m_threadPool.begin(), m_threadPool.end(),
+                      [](std::thread *thread) { thread->join(); });
+
+        // Clear all data from the vector, so it can be initialised again
+        m_threadPool.clear();
 }
