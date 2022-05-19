@@ -40,7 +40,11 @@ void Pools::execute(unsigned threads)
         }
         // join all the threads once they're done their task
         std::for_each(m_threadPool.begin(), m_threadPool.end(),
-                      [](std::thread *thread) { thread->join(); });
+                      [](std::thread *thread) {
+                              thread->join();
+                              // delete the thread pointer, without this the program leaks memory
+                              delete thread;
+                      });
 
         // Clear all data from the vector, so it can be initialised again
         m_threadPool.clear();
