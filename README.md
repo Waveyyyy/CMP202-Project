@@ -17,7 +17,9 @@
 1. change directory to `/opt/sfml-build` and create a new file `CMAKELists.txt`
 1. add the line `set(BUILD_SHARED_LIBS FALSE)` to `CMAKELists.txt`
 1. run `cmake . && ninja all` to build the static libs
+1. finally run `ninja install` may need to be ran with sudo privileges
 
 ## Compile the program 
 1. run the following command in the root of the project directory 
     - `cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=ninja -G Ninja -S . -B ./cmake-build-release`
+1. change directory to `cmake-build-release` and run `ninja all`
