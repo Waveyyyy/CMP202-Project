@@ -19,7 +19,8 @@ int main(int argc, char **argv)
 
         // check that the user supplied a valid IP address
         // if a valid ip has been supplied, initialise the address variable with it
-        if (std::string(argv[1]).find('.') != 0) {
+        if (std::string(argv[1]).find('.') == std::string::npos) {
+                fprintf(stderr, "%s\n", std::string(argv[1]).c_str());
                 fprintf(stderr, "Invalid IP address\n");
                 exit(1);
         }
