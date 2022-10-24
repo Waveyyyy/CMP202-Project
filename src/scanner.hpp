@@ -28,6 +28,7 @@ class Scanner : public Task {
                 size_t portIndex, std::vector<uint16_t> *openPorts,
                 std::atomic<int> &numOpen, std::atomic<int> &numClosed,
                 sf::Time timeout = sf::milliseconds(200));
+        ~Scanner() = default;
 
         /// The main driving function for class Scanner
         ///
